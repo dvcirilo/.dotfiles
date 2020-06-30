@@ -1,4 +1,4 @@
-# My dotfiles folder
+# My zshrc auxiliary scripts folder
 ZSHFILES=$HOME/.config/zsh
 
 bindkey -v
@@ -40,7 +40,7 @@ ls --color -d . &>/dev/null && alias ls='ls --color=tty' \
 # Take advantage of $LS_COLORS for completion as well.
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-# source shrink_path
+# source shrink_path; fish-like prompt path shrinking
 source $ZSHFILES/shrink_path.zsh
 
 # Load prompt
@@ -54,6 +54,7 @@ export EDITOR=vim
 alias ll="ls -la"
 alias la="ls -a"
 alias sl="ls"
+
 # Alias for dotfiles repo on ~
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 compdef config='git'
@@ -66,7 +67,6 @@ hash -d phd="$HOME/Dropbox/phd/"
 # Search history of typed command with up/down keys
 bindkey "${terminfo[kcuu1]}" up-line-or-search
 bindkey "${terminfo[kcud1]}" down-line-or-search
-
 
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
