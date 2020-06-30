@@ -1,0 +1,17 @@
+[color]
+	ui = true
+[user]
+	name = Diego Cirilo
+	email = dvcirilo@gmail.com
+[alias]
+        pom = push origin master
+        po = push origin
+        cam = commit -am
+        lol = log --graph --decorate --pretty=oneline --abbrev-commit
+        lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+        co = checkout
+        s = status
+[core]
+	excludesfile = ~/.config/git/gitignore
+[credential]
+	helper = cache --timeout=3600
