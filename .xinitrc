@@ -6,7 +6,7 @@ do
 done &
 
 setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
-hsetroot --center ~/.local/share/bg.jpg
+hsetroot -center ~/.local/share/bg.jpg
 picom &
 dropbox start &
 dunst &

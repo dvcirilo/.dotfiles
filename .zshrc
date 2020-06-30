@@ -56,6 +56,7 @@ alias la="ls -a"
 alias sl="ls"
 # Alias for dotfiles repo on ~
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+compdef config='git'
 
 # Hashes to most used dirs.
 setopt cdablevars
