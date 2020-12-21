@@ -1,0 +1,10 @@
+#!/bin/bash
+
+app_path="/usr/share/applications $HOME/.local/share/applications"
+
+file_list=$(find $app_path -name '*.desktop' -printf "%A@ %f\n" | \
+                                                    sort -rnu | \
+                                                    cut -d' ' -f2)
+
+gtk-launch $(for file in $file_list; do echo ${file%.*}; done | dmenu -i)
+
