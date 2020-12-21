@@ -1,8 +1,15 @@
 # My zshrc auxiliary scripts folder
 ZSHFILES=$HOME/.config/zsh
 
+# Use vim bindings
 bindkey -v
+
+# Use CTRL-R to search history
 bindkey '^R' history-incremental-search-backward
+
+# Press v to edit command line when in normal-mode (vi mode)
+autoload edit-command-line; zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
 
 # History
 source $ZSHFILES/history.zsh
@@ -14,8 +21,10 @@ source $ZSHFILES/keycodes.zsh
 CASE_SENSITIVE="true"
 
 # Completion
-autoload -U compinit && compinit
+autoload -U compinit && compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
+ZSH_CACHE_DIR=$XDG_CACHE_HOME/zsh/zcompcache
 source $ZSHFILES/completion.zsh
+
 
 # Changing/making/removing directory
 setopt auto_pushd
@@ -51,12 +60,14 @@ source $ZSHFILES/zsh-prompt
 export EDITOR=vim
 
 # Aliases
-alias ll="ls -la"
+alias ll="ls -lah"
 alias la="ls -a"
 alias sl="ls"
 
 # Alias for dotfiles repo on ~
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+# Enable completion for the config alias
 compdef config='git'
 
 # Hashes to most used dirs.
@@ -78,8 +89,13 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
-
 bindkey -s '^o' 'lfcd\n'
+
+# Use fzf to change to a directory
+ff () {
+    #cd $(find . -type d -printf "%A@ %p\n" | sort -r | cut -d' ' -f2 | fzf)
+    cd $(find . -type d | fzf)
+}
 
 # Source EDA env functions
 source $ZSHFILES/eda_envs.sh
