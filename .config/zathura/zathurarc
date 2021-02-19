@@ -1,0 +1,18 @@
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+set page-padding 1
+set first-page-column 1:1
+set recolor-keephue
+#set recolor-darkcolor "#dcdccc"
+#set recolor-lightcolor "#1f1f1f"
+set recolor-darkcolor "#000000"
+set recolor-lightcolor "#f4eddd"
+map u scroll half-up
+map d scroll half-down
+map D toggle_page_mode
+map r reload
+map R rotate
+map K zoom in
+map J zoom out
+map i recolor
+map p print
