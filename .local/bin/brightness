@@ -1,0 +1,30 @@
+#!/bin/bash
+
+TEMP=$(xrandr --verbose | grep -w 'connected\|Brightness')
+MONITOR=$(echo $TEMP | head -1 | cut -d' ' -f1)
+VALUE=$(echo $TEMP | tail -1 | awk -F'[:]' '{print $2}')
+
+case $1 in
+    -inc)
+        VALUE=$(echo $VALUE'+0.1' | bc -l)
+        if  (( $(echo $VALUE'>1' | bc -l) )); then
+            VALUE=1
+        fi
+        xrandr --output $MONITOR --brightness $VALUE
+        ;;
+
+    -dec)
+        VALUE=$(echo $VALUE'-0.1' | bc -l)
+        if  (( $(echo $VALUE'<0' | bc -l) )); then
+            VALUE=0
+        fi
+        xrandr --output $MONITOR --brightness $VALUE
+        ;;
+
+    "") echo $VALUE;;
+
+    -h|--help) echo "-inc to increment 10%, -dec to decrement 10%, prints current brightness value if no argument is present.";;
+
+    *) echo "Invalid option: $1" >&2
+      exit 1;;
+esac
