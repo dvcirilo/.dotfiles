@@ -72,8 +72,8 @@ compdef config='git'
 
 # Hashes to most used dirs.
 setopt cdablevars
-hash -d ifrn="$HOME/Dropbox/ifrn/"
-hash -d phd="$HOME/Dropbox/phd/"
+hash -d ifrn="$HOME/Dropbox/diego/ifrn/"
+hash -d phd="$HOME/Dropbox/diego/phd/"
 
 # Search history of typed command with up/down keys
 bindkey "${terminfo[kcuu1]}" up-line-or-search
@@ -97,10 +97,16 @@ ff () {
     cd $(find . -type d | fzf)
 }
 
+dupfind () {
+    find -not -empty -type f -printf "%s\n" | sort -rn | uniq -d | \
+        xargs -I{} -n1 find -type f -size {}c -print0 | xargs -0 md5sum | \
+        sort | uniq -w32 --all-repeated=separate
+}
+
 # Source EDA env functions
 source $ZSHFILES/eda_envs.sh
 
 # Add texlive to path if it exists
-if [ -d /usr/local/texlive/2020/bin/x86_64-linux ]; then
-    PATH=$PATH:/usr/local/texlive/2020/bin/x86_64-linux # Add Latex to path
+if [ -d /usr/local/texlive/2021/bin/x86_64-linux ]; then
+    PATH=$PATH:/usr/local/texlive/2021/bin/x86_64-linux # Add Latex to path
 fi

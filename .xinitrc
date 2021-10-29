@@ -7,7 +7,7 @@ done &
 
 setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
 hsetroot -center ~/.local/share/bg.jpg
-picom -c -f -r 12 -o 1 &
-dropbox start &
+#picom -c -f -r 12 -o 1 &
+sleep 2m && dropbox start &
 dunst &
 ssh-agent startdwm

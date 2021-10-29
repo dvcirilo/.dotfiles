@@ -2,7 +2,7 @@
 export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | paste -sd ':')"
 
 # Default programs:
-#export EDITOR="nvim"
+export EDITOR="vim"
 export TERMINAL="st"
 export BROWSER="google-chrome"
 export READER="zathura"
@@ -19,10 +19,8 @@ export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
 #export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 #export WINEPREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/wineprefixes/default"
-#export KODI_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/kodi"
 #export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/password-store"
 #export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-#export ANDROID_SDK_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/android"
 #export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
 #export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 #export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
@@ -46,69 +44,6 @@ export QT_QPA_PLATFORMTHEME="gtk2"	# Have QT use gtk2 theme.
 export AWT_TOOLKIT="MToolkit wmname LG3D"	#May have to install wmname
 export _JAVA_AWT_WM_NONREPARENTING=1	# Fix for Java applications in dwm
 export _JAVA_OPTIONS="-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dawt.useSystemAAFontSettings=lcd"
-
-# This is the list for lf icons:
-#export LF_ICONS="di=📁:\
-#fi=📃:\
-#tw=🤝:\
-#ow=📂:\
-#ln=⛓:\
-#or=❌:\
-#ex=🎯:\
-#*.txt=✍:\
-#*.mom=✍:\
-#*.me=✍:\
-#*.ms=✍:\
-#*.png=🖼:\
-#*.ico=🖼:\
-#*.jpg=📸:\
-#*.jpeg=📸:\
-#*.gif=🖼:\
-#*.svg=🗺:\
-#*.xcf=🖌:\
-#*.html=🌎:\
-#*.xml=📰:\
-#*.gpg=🔒:\
-#*.css=🎨:\
-#*.pdf=📚:\
-#*.djvu=📚:\
-#*.epub=📚:\
-#*.csv=📓:\
-#*.xlsx=📓:\
-#*.tex=📜:\
-#*.md=📘:\
-#*.r=📊:\
-#*.R=📊:\
-#*.rmd=📊:\
-#*.Rmd=📊:\
-#*.mp3=🎵:\
-#*.opus=🎵:\
-#*.ogg=🎵:\
-#*.m4a=🎵:\
-#*.flac=🎼:\
-#*.mkv=🎥:\
-#*.mp4=🎥:\
-#*.webm=🎥:\
-#*.mpeg=🎥:\
-#*.avi=🎥:\
-#*.zip=📦:\
-#*.rar=📦:\
-#*.7z=📦:\
-#*.tar.gz=📦:\
-#*.z64=🎮:\
-#*.v64=🎮:\
-#*.n64=🎮:\
-#*.1=ℹ:\
-#*.nfo=ℹ:\
-#*.info=ℹ:\
-#*.log=📙:\
-#*.iso=📀:\
-#*.img=📀:\
-#*.bib=🎓:\
-#*.ged=👪:\
-#*.part=💔:\
-#*.torrent=🔽:\
-#"
 
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx

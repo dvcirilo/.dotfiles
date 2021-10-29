@@ -9,6 +9,7 @@ CPUTEMP=$(sensors | awk '/Core 0/ {gsub (/+/,""); print "🌡" $3}')
 CPU=$(echo "$TOPOUT" | awk '/Cpu\(s\):/ { print 100-$8 "%" }' | tail -n1)
 #🧠
 MEM=$(echo "$TOPOUT" | awk '/MiB Mem/ {printf ("%2.1fGiB(%2.0f%)\n", ($8 / 1024), (($8 * 100) / $4))}' | tail -n1)
-WEATHER=$(curl -s 'wttr.in/nat?format=%c+%t+%h' | awk '{gsub("+","") ;print $1$2 " 🌢" $3}')
+#WEATHER=$(curl -s 'wttr.in/nat?format=%c+%t+%h' | awk '{gsub("+","") ;print $1$2 " 🌢" $3}')
 
-echo "🍅 $WEATHER | $(dropboxchk) | $CPU $CPUTEMP | $MEM | $LOCALTIME "
+#echo "🍅 $WEATHER | $(dropboxchk) | $CPU $CPUTEMP | $MEM | $LOCALTIME "
+echo " $(dropboxchk) | $CPU $CPUTEMP | $MEM | $LOCALTIME "
