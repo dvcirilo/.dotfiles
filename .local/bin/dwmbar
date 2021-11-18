@@ -6,10 +6,9 @@ TOPOUT=$(top -b -n2 -p1)
 LOCALTIME=$(date +"%a %b-%d | %H:%M")
 #IP=$(for i in `ip r`; do echo $i; done | grep -A 1 src | tail -n1) # can get confused if you use vmware
 CPUTEMP=$(sensors | awk '/Core 0/ {gsub (/+/,""); print "🌡" $3}')
-CPU=$(echo "$TOPOUT" | awk '/Cpu\(s\):/ { print 100-$8 "%" }' | tail -n1)
-#🧠
+CPU=$(echo "$TOPOUT" | awk -F','  '/Cpu\(s\):/ { print 100-substr($4, 1, length($4)-3) "%" }' | tail -n1)
 MEM=$(echo "$TOPOUT" | awk '/MiB Mem/ {printf ("%2.1fGiB(%2.0f%)\n", ($8 / 1024), (($8 * 100) / $4))}' | tail -n1)
 #WEATHER=$(curl -s 'wttr.in/nat?format=%c+%t+%h' | awk '{gsub("+","") ;print $1$2 " 🌢" $3}')
 
-#echo "🍅 $WEATHER | $(dropboxchk) | $CPU $CPUTEMP | $MEM | $LOCALTIME "
 echo " $(dropboxchk) | $CPU $CPUTEMP | $MEM | $LOCALTIME "
+

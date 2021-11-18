@@ -10,4 +10,7 @@ hsetroot -center ~/.local/share/bg.jpg
 #picom -c -f -r 12 -o 1 &
 sleep 2m && dropbox start &
 dunst &
+#xrandr --output DP1 --set "Broadcast RGB" "Full"
+udiskie &
+xbanish -i all &
 ssh-agent startdwm
