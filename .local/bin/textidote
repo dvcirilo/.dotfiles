@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+java -jar $HOME/app/textidote.jar --read-all --check en "$@"
