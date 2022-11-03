@@ -1,0 +1,1 @@
+/usr/bin/jackd -P95 -p128 -t1000 -dalsa -dhw:USB,0 -r48000 -p64 -n2 -S -Xalsarawmidi

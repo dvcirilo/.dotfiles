@@ -33,8 +33,8 @@ altera(){
 
 # Set Mentor Questa
 questa(){
-    if [ -d /usr/local/questasim/ ]; then
-        export LM_LICENSE_FILE=/usr/local/questasim/license.dat
-        PATH=$PATH:/usr/local/questasim/linux_x86_64/
+    if [ -d ~/app/mentor/questasim/ ]; then
+        export LM_LICENSE_FILE=~/app/mentor/license.dat
+        PATH=$PATH:~/app/mentor/questasim/linux_x86_64/
     fi
 }
