@@ -5,10 +5,16 @@ TOPOUT=$(top -b -n2 -p1)
 
 LOCALTIME=$(date +"%a %b-%d | %H:%M")
 #IP=$(for i in `ip r`; do echo $i; done | grep -A 1 src | tail -n1) # can get confused if you use vmware
-CPUTEMP=$(sensors | awk '/Core 0/ {gsub (/+/,""); print "🌡" $3}')
+#CPUTEMP=$(sensors | awk '/Core 0/ {gsub (/+/,""); print "🌡" $3}')
+CPUTEMP=$(sensors | awk '/Tdie/ {gsub (/+/,""); print "🌡" $2}')
 CPU=$(echo "$TOPOUT" | awk -F','  '/Cpu\(s\):/ { print 100-substr($4, 1, length($4)-3) "%" }' | tail -n1)
 MEM=$(echo "$TOPOUT" | awk '/MiB Mem/ {printf ("%2.1fGiB(%2.0f%)\n", ($8 / 1024), (($8 * 100) / $4))}' | tail -n1)
 #WEATHER=$(curl -s 'wttr.in/nat?format=%c+%t+%h' | awk '{gsub("+","") ;print $1$2 " 🌢" $3}')
 
-echo " $(dropboxchk) | $CPU $CPUTEMP | $MEM | $LOCALTIME "
+POMODORO_FILE=$HOME/.cache/pomodoro
+REST_FILE=$HOME/.cache/pomodoro_rest
+
+#POMODORO=$([ -f $POMODORO_FILE ] && date -d @$(($(cat $POMODORO_FILE)-$(date +%s)+1500)) '+%M:%S')
+#echo "🍅$POMODORO | $(dropboxchk) | $CPU $CPUTEMP | $MEM | $LOCALTIME"
+echo "$(dropboxchk) | $CPU $CPUTEMP | $MEM | $LOCALTIME"
 
