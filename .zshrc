@@ -72,7 +72,7 @@ compdef config='git'
 
 # Hashes to most used dirs.
 setopt cdablevars
-hash -d ifrn="$HOME/Dropbox/diego/ifrn/"
+hash -d ifrn="$HOME/docs/2-areas/ifrn/"
 hash -d phd="$HOME/Dropbox/diego/phd/"
 
 # Search history of typed command with up/down keys
