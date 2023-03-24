@@ -15,7 +15,8 @@ then
     xrandr --output DP1 --set "Broadcast RGB" "Full"
 else
     xcape -e "Control_L=Escape" &
-    #[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+    [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+    [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 fi
 udiskie &
 xbanish -i all &
