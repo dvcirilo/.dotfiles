@@ -1,18 +1,18 @@
 # vim:syntax=sh filetype=sh
 #!/bin/bash
 
-TOPOUT=$(top -b -n2 -p1)
+CORES=$(grep -c processor /proc/cpuinfo)
+CPU=$(awk -v cores="$CORES" '{printf "%.1f\n", 100*($1/cores)}' /proc/loadavg)
 
 LOCALTIME=$(date +"%a %b-%d | %H:%M")
-CPU=$(echo "$TOPOUT" | awk '/Cpu\(s\):/ { print 100-$8 "%" }' | tail -n1)
-MEM=$(echo "$TOPOUT" | awk '/MiB Mem/ {printf ("%2.1fGiB(%2.0f%)\n", ($8 / 1024), (($8 * 100) / $4))}' | tail -n1)
-CPUTEMP=$(sensors | awk '/Core 0/ {gsub (/+/,""); print "🌡" $3}')
+MEM=$(free | awk '(NR==2){printf ("%2.1fGiB(%2.0f%)\n", (($3 / 1024)/1024), (($3 * 100) / $2))}')
+CPUTEMP=$(awk '{printf ("%d°C\n"), $1/1000}' /sys/class/thermal/thermal_zone6/temp)
 #WEATHER=$(curl -s 'wttr.in/nat?format=%c+%t+%h' | awk '{gsub("+","") ;print $1$2 " 🌢" $3}')
 
 if [ $(hostname) = "thinkpad" ]
 then
     BATTERY=$(cat /sys/class/power_supply/BAT0/capacity)
-    echo " $(dropboxchk) | $CPU $CPUTEMP | $MEM |🗲 $BATTERY | $LOCALTIME "
+    echo "| $(dropboxchk) | $CPU% 🌡$CPUTEMP | $MEM |🗲 $BATTERY | $LOCALTIME "
 else
-    echo " $(dropboxchk) | $CPU $CPUTEMP | $MEM | $LOCALTIME "
+    echo "| $(dropboxchk) | $CPU% 🌡$CPUTEMP | $MEM | $LOCALTIME "
 fi
