@@ -8,7 +8,7 @@ done &
 setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
 hsetroot -center ~/.local/share/bg.jpg
 #picom -c -f -r 12 -o 1 &
-sleep 300 && dropbox start &
+sleep 60 && dropbox start &
 dunst &
 if [ $(hostname) -eq "desktop" ]
 then
@@ -17,6 +17,7 @@ else
     xcape -e "Control_L=Escape" &
     [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
     [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
+    redshift &
 fi
 udiskie &
 xbanish -i all &
