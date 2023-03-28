@@ -6,7 +6,7 @@ CPU=$(awk -v cores="$CORES" '{printf "%.1f\n", 100*($1/cores)}' /proc/loadavg)
 
 LOCALTIME=$(date +"%a %b-%d | %H:%M")
 MEM=$(free | awk '(NR==2){printf ("%2.1fGiB(%2.0f%)\n", (($3 / 1024)/1024), (($3 * 100) / $2))}')
-CPUTEMP=$(awk '{printf ("%d°C\n"), $1/1000}' /sys/class/thermal/thermal_zone6/temp)
+CPUTEMP=$(paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | awk '/x86_pkg_temp/ {printf ("%d°C\n"), $2/1000}')
 #WEATHER=$(curl -s 'wttr.in/nat?format=%c+%t+%h' | awk '{gsub("+","") ;print $1$2 " 🌢" $3}')
 
 if [ $(hostname) = "thinkpad" ]
