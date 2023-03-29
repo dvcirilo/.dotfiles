@@ -10,7 +10,7 @@ hsetroot -center ~/.local/share/bg.jpg
 #picom -c -f -r 12 -o 1 &
 sleep 60 && dropbox start &
 dunst &
-if [ $(hostname)="desktop" ]
+if [ $(hostname) = "desktop" ]
 then
     xrandr --output DP1 --set "Broadcast RGB" "Full"
 else
