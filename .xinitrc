@@ -17,6 +17,7 @@ else
     xcape -e "Control_L=Escape" &
     [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
     [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
+    xinput disable "Synaptics TM3276-022"
 fi
 redshift &
 udiskie &

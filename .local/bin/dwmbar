@@ -12,7 +12,8 @@ CPUTEMP=$(paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/th
 if [ $(hostname) = "thinkpad" ]
 then
     BATTERY=$(cat /sys/class/power_supply/BAT0/capacity)
-    echo "| $(dropboxchk) | $CPU% 🌡$CPUTEMP | $MEM |🗲 $BATTERY | $LOCALTIME "
+    BATTIME=$(acpi -b | awk '(NR==1){gsub(":"," "); printf("%dh%d\n"), $5,$6}')
+    echo "| $(dropboxchk) | $CPU% 🌡$CPUTEMP | $MEM |🗲 $BATTERY%($BATTIME) | $LOCALTIME "
 else
     echo "| $(dropboxchk) | $CPU% 🌡$CPUTEMP | $MEM | $LOCALTIME "
 fi
