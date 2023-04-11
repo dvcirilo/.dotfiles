@@ -8,12 +8,12 @@ my_out = subprocess.Popen(["dropbox", "status"],
 message = my_out.communicate()[0].decode("utf-8")
 
 if "Syncing" in message:
-    print("⟲")
+    print("🔄")
 elif "Sincronizando" in message:
-    print("⟲")
+    print("🔄")
 elif "Up to date" in message:
-    print("⇌")
+    print("☑")
 elif "Atualizado" in message:
-    print("⇌")
+    print("☑")
 else:
     print("⚠")

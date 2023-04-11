@@ -1,0 +1,43 @@
+# vim:syntax=sh filetype=sh
+#!/bin/bash
+
+BAT0CAP=$(cat /sys/class/power_supply/BAT0/capacity)%
+BAT1CAP=$(cat /sys/class/power_supply/BAT1/capacity)%
+
+BAT0ENERGY=$(cat /sys/class/power_supply/BAT0/energy_now)
+BAT1ENERGY=$(cat /sys/class/power_supply/BAT1/energy_now)
+
+BAT0POWER=$(cat /sys/class/power_supply/BAT0/power_now)
+BAT1POWER=$(cat /sys/class/power_supply/BAT1/power_now)
+
+BAT0STATUS=$(cat /sys/class/power_supply/BAT0/status)
+BAT1STATUS=$(cat /sys/class/power_supply/BAT1/status)
+
+if grep -q "on-line" <<< "$(acpi -a)"; then
+    if [ $BAT0STATUS = "Charging" ]; then
+        BAT0="⚡$BAT0CAP"
+        BAT1="🔌$BAT1CAP"
+    elif [ $BAT1STATUS = "Charging" ]; then
+        BAT0="🔌$BAT0CAP"
+        BAT1="⚡$BAT1CAP"
+    else
+        BAT0="🔌$BAT0CAP"
+        BAT1="🔌$BAT1CAP"
+    fi
+else
+    if [ $BAT0STATUS = "Discharging" ]; then
+        BAT0ICON="🔋"
+        BAT1ICON="💤"
+        POWER=$BAT0POWER
+    else
+        BAT0ICON="💤"
+        BAT1ICON="🔋"
+        POWER=$BAT1POWER
+    fi
+    BATTIME0=$(echo "$BAT0ENERGY $POWER" | awk '{printf "(%02d:%02d)\n", int($1/$2), int((($1/$2)-int($1/$2))*60)}')
+    BATTIME1=$(echo "$BAT1ENERGY $POWER" | awk '{printf "(%02d:%02d)\n", int($1/$2), int((($1/$2)-int($1/$2))*60)}')
+    BAT0="$BAT0ICON$BAT0CAP$BATTIME0"
+    BAT1="$BAT1ICON$BAT1CAP$BATTIME1"
+fi
+
+echo "$BAT0 $BAT1"
