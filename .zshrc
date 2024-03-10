@@ -73,7 +73,7 @@ compdef config='git'
 # Hashes to most used dirs.
 setopt cdablevars
 hash -d ifrn="$HOME/docs/2-areas/ifrn/"
-hash -d phd="$HOME/Dropbox/diego/phd/"
+hash -d phd="$HOME/docs/2-areas/phd/"
 
 # Search history of typed command with up/down keys
 bindkey "${terminfo[kcuu1]}" up-line-or-search
@@ -93,8 +93,8 @@ bindkey -s '^o' 'lfcd\n'
 
 # Use fzf to change to a directory
 ff () {
-    #cd $(find . -type d -printf "%A@ %p\n" | sort -r | cut -d' ' -f2 | fzf)
-    cd $(find . -type d | fzf)
+    cd $(find . -type d -printf "%A@ %p\n" | sort -r | cut -d' ' -f2 | fzf)
+    #cd $(find . -type d | fzf)
 }
 
 dupfind () {
@@ -107,6 +107,11 @@ dupfind () {
 source $ZSHFILES/eda_envs.sh
 
 # Add texlive to path if it exists
-if [ -d /usr/local/texlive/2022/bin/x86_64-linux ]; then
-    PATH=$PATH:/usr/local/texlive/2022/bin/x86_64-linux # Add Latex to path
+if [ -d /usr/local/texlive/2023/bin/x86_64-linux ]; then
+    PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux # Add Latex to path
+fi
+
+# Flutter
+if [ -d $HOME/app/flutter/bin ]; then
+    PATH=$PATH:$HOME/app/flutter/bin
 fi
