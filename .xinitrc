@@ -8,7 +8,6 @@ done &
 setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
 hsetroot -center ~/.local/share/bg.jpg
 #picom -c -f -r 12 -o 1 &
-sleep 60 && dropbox start &
 dunst &
 if [ $(hostname) = "desktop" ]
 then
@@ -23,4 +22,5 @@ redshift &
 udiskie &
 xbanish -i all &
 xbindkeys &
+sleep 60 && dropbox start &
 ssh-agent startdwm
