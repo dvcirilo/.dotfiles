@@ -107,8 +107,8 @@ dupfind () {
 source $ZSHFILES/eda_envs.sh
 
 # Add texlive to path if it exists
-if [ -d /usr/local/texlive/2023/bin/x86_64-linux ]; then
-    PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux # Add Latex to path
+if [ -d /usr/local/texlive/2024/bin/x86_64-linux ]; then
+    PATH=$PATH:/usr/local/texlive/2024/bin/x86_64-linux # Add Latex to path
 fi
 
 # Flutter
