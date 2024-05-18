@@ -9,13 +9,13 @@ MEM=$(free | awk '(NR==2){printf ("%2.1fGiB(%2.0f%)\n", (($3 / 1024)/1024), (($3
 CPUTEMP=$(paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | awk '/x86_pkg_temp/ {printf ("%d°C\n"), $2/1000}')
 #WEATHER=$(curl -s 'wttr.in/nat?format=%c+%t+%h' | awk '{gsub("+","") ;print $1$2 " 🌢" $3}')
 
-VOL=$(pactl get-sink-volume 0 | head -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+VOL=$(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
 case 1 in
 	$((vol >= 70)) ) VOLUME="🔊$VOL%" ;;
 	$((vol >= 30)) ) VOLUME="🔉$VOL%" ;;
 	* ) VOLUME="🔈$VOL%" ;;
 esac
-if grep -q "yes" <<< "$(pactl get-sink-mute 0)"; then
+if grep -q "yes" <<< "$(pactl get-sink-mute @DEFAULT_SINK@)"; then
     VOLUME="🔇"
 fi
 
@@ -23,5 +23,5 @@ if [ $(hostname) = "thinkpad" ]
 then
     echo "| $(dropboxchk) | $VOLUME | 🧠$CPU% 🌡$CPUTEMP | 🐏$MEM | $(battery) | 🗓️$LOCALTIME "
 else
-    echo "| $(dropboxchk) | 🧠$CPU% 🌡$CPUTEMP | 🐏$MEM | 🗓️$LOCALTIME "
+    echo "| $(dropboxchk) | $VOLUME | 🧠$CPU% 🌡$CPUTEMP | 🐏$MEM | 🗓️$LOCALTIME "
 fi
