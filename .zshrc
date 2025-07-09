@@ -7,10 +7,6 @@ bindkey -v
 # Use CTRL-R to search history
 bindkey '^R' history-incremental-search-backward
 
-# Press v to edit command line when in normal-mode (vi mode)
-autoload edit-command-line; zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
-
 # History
 source $ZSHFILES/history.zsh
 
