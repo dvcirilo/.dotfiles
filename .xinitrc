@@ -22,5 +22,6 @@ redshift &
 udiskie &
 xbanish -i all &
 xbindkeys &
+lxqt-policykit-agent &
 sleep 60 && dropbox start &
 ssh-agent startdwm
