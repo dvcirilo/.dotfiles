@@ -40,7 +40,7 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 10"
 #export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 #export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
-export QT_QPA_PLATFORMTHEME="gtk2"	# Have QT use gtk2 theme.
+export QT_QPA_PLATFORMTHEME="qt5ct"
 export AWT_TOOLKIT="MToolkit wmname LG3D"	#May have to install wmname
 export _JAVA_AWT_WM_NONREPARENTING=1	# Fix for Java applications in dwm
 export _JAVA_OPTIONS="-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dawt.useSystemAAFontSettings=lcd"

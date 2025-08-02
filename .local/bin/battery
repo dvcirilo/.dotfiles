@@ -39,5 +39,9 @@ else
     BAT0="$BAT0ICON$BAT0CAP$BATTIME0"
     BAT1="$BAT1ICON$BAT1CAP$BATTIME1"
 fi
+if [ -e /sys/class/power_supply/BAT1/status ]; then
+    echo "$BAT0 $BAT1"
+else
+    echo "$BAT0"
+fi
 
-echo "$BAT0 $BAT1"
