@@ -14,6 +14,7 @@
 # libnotify provides this. Other distros may not name it as such.
 #
 NOTIFY=yes
+NOTIFYSOUND=yes
 
 # Show a graphical progress-bar type visualization of the volume level in
 # libnotify. No setting or commented out will show a simply percentage but

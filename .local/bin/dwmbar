@@ -6,7 +6,8 @@ CPU=$(awk -v cores="$CORES" '{printf "%.1f\n", 100*($1/cores)}' /proc/loadavg)
 
 LOCALTIME=$(date +"%a %b-%d | %H:%M")
 MEM=$(free | awk '(NR==2){printf ("%2.1fGiB(%2.0f%)\n", (($3 / 1024)/1024), (($3 * 100) / $2))}')
-CPUTEMP=$(paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | awk '/x86_pkg_temp/ {printf ("%d°C\n"), $2/1000}')
+# CPUTEMP=$(paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | awk '/x86_pkg_temp/ {printf ("%d°C\n"), $2/1000}') # intel only
+CPUTEMP=$(sensors | awk -F'[:+]' '/Package id 0|Tdie|Tctl/ {printf "%.0f°C\n", $3; exit}')
 #WEATHER=$(curl -s 'wttr.in/nat?format=%c+%t+%h' | awk '{gsub("+","") ;print $1$2 " 🌢" $3}')
 
 VOL=$(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')

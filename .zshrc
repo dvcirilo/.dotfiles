@@ -7,10 +7,6 @@ bindkey -v
 # Use CTRL-R to search history
 bindkey '^R' history-incremental-search-backward
 
-# Press v to edit command line when in normal-mode (vi mode)
-autoload edit-command-line; zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
-
 # History
 source $ZSHFILES/history.zsh
 
@@ -107,11 +103,18 @@ dupfind () {
 source $ZSHFILES/eda_envs.sh
 
 # Add texlive to path if it exists
-if [ -d /usr/local/texlive/2024/bin/x86_64-linux ]; then
-    PATH=$PATH:/usr/local/texlive/2024/bin/x86_64-linux # Add Latex to path
+if [ -d /usr/local/texlive/2025/bin/x86_64-linux ]; then
+    PATH=$PATH:/usr/local/texlive/2025/bin/x86_64-linux # Add Latex to path
 fi
 
 # Flutter
 if [ -d $HOME/app/flutter/bin ]; then
     PATH=$PATH:$HOME/app/flutter/bin
+fi
+
+# Pyenv
+if [ -d $HOME/.pyenv ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init - zsh)"
 fi
