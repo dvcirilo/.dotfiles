@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Set the directory where packages.list is located
+WORKING_DIR="$HOME/app/aur"  # Change this to your actual directory
+
+# Check if packages.list exists
+if [[ ! -f "$WORKING_DIR/packages.list" ]]; then
+    echo "Error: packages.list not found in $WORKING_DIR"
+    exit 1
+fi
+
+# Read packages.list line by line
+while IFS= read -r package || [[ -n "$package" ]]; do
+    # Skip empty lines and comments
+    if [[ -z "$package" || "$package" =~ ^\s*# ]]; then
+        continue
+    fi
+    
+    # Remove whitespace
+    package=$(echo "$package" | xargs)
+    
+    echo "Processing package: $package"
+    
+    # Check if directory exists
+    if [[ -d "$WORKING_DIR/$package" ]]; then
+        echo "Directory exists, checking for updates..."
+        cd "$WORKING_DIR/$package" || continue
+        
+        # Check if it's a git repo
+        if [[ -d ".git" ]]; then
+            # Get current status before pulling
+            old_head=$(git rev-parse HEAD)
+            git pull
+            new_head=$(git rev-parse HEAD)
+            
+            # If there were updates
+            if [[ "$old_head" != "$new_head" ]]; then
+                echo "Updates found, building package..."
+                makepkg -si --noconfirm && git clean -dfx
+            else
+                echo "No updates found."
+            fi
+        else
+            echo "Warning: $package directory exists but is not a git repository"
+        fi
+    else
+        echo "Directory doesn't exist, cloning repository..."
+        git clone "https://aur.archlinux.org/${package}.git" "$WORKING_DIR/$package"
+        cd "$WORKING_DIR/$package" || continue
+        makepkg -si && git clean -dfx
+    fi
+    
+    echo "----------------------------------------"
+done < "$WORKING_DIR/packages.list"
+
+echo "All packages processed."
