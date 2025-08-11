@@ -14,11 +14,11 @@ else
         xcape -e "Control_L=Escape" &
         [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
     fi
-    [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
     xinput disable "Synaptics TM3276-022"
     autorandr -c
 fi
 #picom -c -f -r 12 -o 1 &
+[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 dunst &
 hsetroot -root -cover ~/.local/share/bg
 redshift &
