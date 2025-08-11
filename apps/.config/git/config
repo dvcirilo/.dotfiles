@@ -11,8 +11,6 @@
         lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
         co = checkout
         s = status
-[core]
-	excludesfile = ~/.config/git/gitignore
 [credential]
 	helper = cache --timeout=3600
 [pull]
