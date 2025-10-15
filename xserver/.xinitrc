@@ -9,11 +9,9 @@ if [ $(hostname) = "desktop" ]
 then
     xrandr --output DisplayPort-0 --primary --output HDMI-A-0 --auto --right-of DisplayPort-0 --rotate right --set "Broadcast RGB" "Full" --brightness 0.8
 else
-    # Set keyboard hacks only if no external keyboard is connected
-    if ! grep -iA5 "keyboard" /proc/bus/input/devices | grep -qi "Phys=.*usb"; then
-        xcape -e "Control_L=Escape" &
-        [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
-    fi
+    # Swapcaps only if no external keyboard is connected
+    [ $(grep -ci keyboard /proc/bus/input/devices) -eq 1 ] && setxkbmap -option ctrl:swapcaps
+
     xinput disable "Synaptics TM3276-022"
     autorandr -c --force
     # Set dpi only if no external display is connected

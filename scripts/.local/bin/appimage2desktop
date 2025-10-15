@@ -1,0 +1,66 @@
+#!/bin/bash
+# appimage-integrate.sh
+
+APPIMAGE_DIR="$HOME/app"
+DESKTOP_DIR="$HOME/.local/share/applications"
+ICON_DIR="$HOME/.local/share/icons"
+
+mkdir -p "$APPIMAGE_DIR" "$DESKTOP_DIR" "$ICON_DIR"
+
+# Extract and create desktop files for all AppImages
+find "$APPIMAGE_DIR" -name "*.AppImage" -type f | while read appimage; do
+    appname=$(basename "$appimage" .AppImage)
+    echo "Processing: $appname"
+    
+    # Extract AppImage
+    "$appimage" --appimage-extract >/dev/null 2>&1
+    
+    # Look for .desktop file at the ROOT of squashfs folder first
+    desktop_file="squashfs-root/${appname}.desktop"
+    if [ ! -f "$desktop_file" ]; then
+        # Fallback: any .desktop file in root
+        desktop_file=$(find squashfs-root -maxdepth 1 -name "*.desktop" -type f | head -1)
+    fi
+    
+    # Find icon (prioritize by size/type)
+    icon_file=$(find squashfs-root -name "*.png" -o -name "*.svg" -o -name "*.ico" | grep -i icon | head -1)
+    [ -z "$icon_file" ] && icon_file=$(find squashfs-root -name "*.png" -o -name "*.svg" | head -1)
+    
+    # Copy icon if found
+    if [ -n "$icon_file" ] && [ -f "$icon_file" ]; then
+        icon_ext="${icon_file##*.}"
+        icon_dest="$ICON_DIR/${appname}.${icon_ext}"
+        cp "$icon_file" "$icon_dest"
+        icon_path="$icon_dest"
+    else
+        icon_path="application-x-executable"
+    fi
+    
+    # Create desktop file
+    if [ -n "$desktop_file" ] && [ -f "$desktop_file" ]; then
+        # Use extracted desktop file but fix Exec path
+        sed "s|^Exec=.*|Exec=$appimage|" "$desktop_file" | \
+        sed "s|^Icon=.*|Icon=$icon_path|" > "$DESKTOP_DIR/${appname}.desktop"
+    else
+        # Create new desktop file
+        cat > "$DESKTOP_DIR/${appname}.desktop" << EOF
+[Desktop Entry]
+Name=$appname
+Exec=$appimage
+Icon=$icon_path
+Type=Application
+Categories=Utility;
+Terminal=false
+EOF
+    fi
+    
+    # Cleanup
+    rm -rf squashfs-root
+    
+    echo "Created: $DESKTOP_DIR/${appname}.desktop"
+done
+
+# Update desktop database
+update-desktop-database "$DESKTOP_DIR"
+
+echo "AppImage integration complete! They will now appear in rofi."
