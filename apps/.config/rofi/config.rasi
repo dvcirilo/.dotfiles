@@ -1,0 +1,21 @@
+@theme "/usr/share/rofi/themes/gruvbox-dark-hard.rasi"
+
+configuration {
+    modi: "drun,run,combi";
+    combi-modi: "drun,run";
+    show-icons: true;
+    location: 2;
+}
+
+window {
+    width: 100%;
+}
+
+listview {
+    lines: 5;
+    fixed-height: true;
+}
+
+prompt {
+    enabled: false;
+}
