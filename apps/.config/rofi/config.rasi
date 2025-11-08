@@ -1,14 +1,8 @@
 @theme "/usr/share/rofi/themes/gruvbox-dark-hard.rasi"
 
-configuration {
-    modi: "drun,run,combi";
-    combi-modi: "drun,run";
-    show-icons: true;
-    location: 2;
-}
-
 window {
-    width: 100%;
+    width: 60%;
+    padding:    0px;
 }
 
 listview {
@@ -18,4 +12,13 @@ listview {
 
 prompt {
     enabled: false;
+}
+
+configuration {
+    modi: "drun,run,combi";
+    combi-modi: "drun,run";
+    drun-match-fields: "name,exec";
+    show-icons: true;
+    location: 2;
+    font: "Noto 11";
 }
