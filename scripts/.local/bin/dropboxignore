@@ -1,0 +1,5 @@
+#!/bin/bash
+
+find . -type d \( -name "venv" -o -name "node_modules" \) -prune | while read -r dir; do
+    attr -s com.dropbox.ignored -V 1 "$dir"
+done
