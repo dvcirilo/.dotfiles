@@ -1,5 +1,13 @@
 #!/bin/bash
 
+count=0
+
 find . -type d \( -name "venv" -o -name "node_modules" \) -prune | while read -r dir; do
-    attr -s com.dropbox.ignored -V 1 "$dir"
+    attr -s com.dropbox.ignored -V 1 "$dir" > /dev/null
+    echo "$dir"
+    count=$((count + 1))
+    echo $count > /tmp/dropbox_ignore_count
 done
+
+echo "---"
+echo "Total ignored: $(cat /tmp/dropbox_ignore_count 2>/dev/null || echo 0)"
