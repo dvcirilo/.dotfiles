@@ -60,12 +60,6 @@ alias ll="ls -lah"
 alias la="ls -a"
 alias sl="ls"
 
-# Alias for dotfiles repo on ~
-alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
-# Enable completion for the config alias
-compdef config='git'
-
 # Hashes to most used dirs.
 setopt cdablevars
 hash -d ifrn="$HOME/docs/2-areas/ifrn/"
@@ -101,16 +95,6 @@ dupfind () {
 
 # Source EDA env functions
 source $ZSHFILES/eda_envs.sh
-
-# Add texlive to path if it exists
-if [ -d /usr/local/texlive/2025/bin/x86_64-linux ]; then
-    PATH=$PATH:/usr/local/texlive/2025/bin/x86_64-linux # Add Latex to path
-fi
-
-# Flutter
-if [ -d $HOME/app/flutter/bin ]; then
-    PATH=$PATH:$HOME/app/flutter/bin
-fi
 
 # Pyenv
 if [ -d $HOME/.pyenv ]; then
