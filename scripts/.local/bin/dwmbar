@@ -12,17 +12,20 @@ CPUTEMP=$(sensors | awk -F'[:+]' '/Package id 0|Tdie|Tctl/ {printf "%.0f°C\n", 
 
 VOL=$(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
 case 1 in
-	$((vol >= 70)) ) VOLUME="🔊$VOL%" ;;
-	$((vol >= 30)) ) VOLUME="🔉$VOL%" ;;
+	$((VOL >= 70)) ) VOLUME="🔊$VOL%" ;;
+	$((VOL >= 30)) ) VOLUME="🔉$VOL%" ;;
 	* ) VOLUME="🔈$VOL%" ;;
 esac
 if grep -q "yes" <<< "$(pactl get-sink-mute @DEFAULT_SINK@)"; then
     VOLUME="🔇"
 fi
 
+CLAUDE=$(claudeusage)
+CLAUDE=${CLAUDE:+ $CLAUDE |}
+
 if [ $(hostname) = "thinkpad" ]
 then
-    echo "| $(dropboxchk) | $VOLUME | 🧠$CPU% 🌡$CPUTEMP | 🐏$MEM | $(battery) | 🗓️$LOCALTIME "
+    echo "| $(dropboxchk) |$CLAUDE $VOLUME | 🧠$CPU% 🌡$CPUTEMP | 🐏$MEM | $(battery) | 🗓️$LOCALTIME "
 else
-    echo "| $(dropboxchk) | $VOLUME | 🧠$CPU% 🌡$CPUTEMP | 🐏$MEM | 🗓️$LOCALTIME "
+    echo "| $(dropboxchk) |$CLAUDE $VOLUME | 🧠$CPU% 🌡$CPUTEMP | 🐏$MEM | 🗓️$LOCALTIME "
 fi
