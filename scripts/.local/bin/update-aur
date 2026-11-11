@@ -9,8 +9,12 @@ if [[ ! -f "$WORKING_DIR/packages.list" ]]; then
     exit 1
 fi
 
-# Read packages.list line by line
-while IFS= read -r package || [[ -n "$package" ]]; do
+# Ask for sudo password once up front so it's cached before the loop starts.
+sudo -v
+
+# Read packages.list line by line on fd 3, so stdin (fd 0) stays
+# attached to the terminal for makepkg/pacman/sudo prompts inside the loop.
+while IFS= read -r package <&3 || [[ -n "$package" ]]; do
     # Skip empty lines and comments
     if [[ -z "$package" || "$package" =~ ^\s*# ]]; then
         continue
@@ -36,7 +40,8 @@ while IFS= read -r package || [[ -n "$package" ]]; do
             # If there were updates
             if [[ "$old_head" != "$new_head" ]]; then
                 echo "Updates found, building package..."
-                makepkg -si --noconfirm && git clean -dfx
+                sudo -v
+                makepkg -si && git clean -dfx
             else
                 echo "No updates found."
             fi
@@ -47,10 +52,11 @@ while IFS= read -r package || [[ -n "$package" ]]; do
         echo "Directory doesn't exist, cloning repository..."
         git clone "https://aur.archlinux.org/${package}.git" "$WORKING_DIR/$package"
         cd "$WORKING_DIR/$package" || continue
+        sudo -v
         makepkg -si && git clean -dfx
     fi
     
     echo "----------------------------------------"
-done < "$WORKING_DIR/packages.list"
+done 3< "$WORKING_DIR/packages.list"
 
 echo "All packages processed."
