@@ -1,6 +1,9 @@
 # Adds `~/.local/bin` to $PATH
 export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | paste -sd ':')"
 
+# Stop the uv installer / `uv self update` from editing shell rc files
+export UV_NO_MODIFY_PATH=1
+
 # Default programs:
 export EDITOR="vim"
 export TERMINAL="st"

@@ -1,0 +1,48 @@
+#!/bin/bash
+# Claude plan usage for the status bar: 5h session % (reset time) and 7d %.
+# Data is cached and refreshed in the background so the bar never blocks.
+
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/claudeusage.json"
+CREDS="$HOME/.claude/.credentials.json"
+MAX_AGE=300 # seconds
+
+# Hide entirely when not logged in to Claude
+jq -e '.claudeAiOauth.accessToken // empty' "$CREDS" >/dev/null 2>&1 || exit 0
+
+refresh() {
+    local token tmp
+    token=$(jq -r '.claudeAiOauth.accessToken // empty' "$CREDS" 2>/dev/null) || return
+    [ -n "$token" ] || return
+    tmp=$(mktemp "$CACHE.XXXXXX") || return
+    if curl -sf -m 10 https://api.anthropic.com/api/oauth/usage \
+        -H "Authorization: Bearer $token" \
+        -H "anthropic-beta: oauth-2025-04-20" -o "$tmp" &&
+        jq -e .five_hour "$tmp" >/dev/null 2>&1; then
+        mv "$tmp" "$CACHE"
+    else
+        rm -f "$tmp"
+        touch "$CACHE" 2>/dev/null # back off until next MAX_AGE on failure
+    fi
+}
+
+age=$(( $(date +%s) - $(stat -c %Y "$CACHE" 2>/dev/null || echo 0) ))
+if [ "$age" -ge "$MAX_AGE" ]; then
+    touch "$CACHE"
+    refresh >/dev/null 2>&1 &
+    disown
+fi
+
+[ -s "$CACHE" ] || exit 0
+
+read -r SESSION RESET WEEK < <(jq -r '[
+    (.five_hour.utilization // 0 | floor),
+    (.five_hour.resets_at // ""),
+    (.seven_day.utilization // 0 | floor)
+] | @tsv' "$CACHE" 2>/dev/null)
+[ -n "$SESSION" ] || exit 0
+
+if [ -n "$RESET" ] && [ "$SESSION" -gt 0 ]; then
+    RESET_AT=" ($(date -d "$RESET" +%H:%M))"
+fi
+
+echo "🤖$SESSION%$RESET_AT 7d:$WEEK%"
